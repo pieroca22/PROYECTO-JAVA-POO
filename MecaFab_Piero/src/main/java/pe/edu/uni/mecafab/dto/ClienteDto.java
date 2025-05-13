@@ -15,6 +15,16 @@ public class ClienteDto {
 	public ClienteDto() {
 	}
 
+	public ClienteDto(String nombre, String apellido, String telefono, String email, String direccion) {
+		this.idCliente = idCliente;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.telefono = telefono;
+		this.email = email;
+		this.direccion = direccion;
+		this.fechaRegistro = fechaRegistro;
+	}
+
 	public int getIdCliente() {
 		return idCliente;
 	}

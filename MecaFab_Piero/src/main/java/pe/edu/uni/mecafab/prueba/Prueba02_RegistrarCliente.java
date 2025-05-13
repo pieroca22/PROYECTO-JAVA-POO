@@ -20,7 +20,7 @@ public class Prueba02_RegistrarCliente {
 			
 			// Proceso
 			ClienteController controller = new ClienteController();
-			controller.registrarCliente(dto);
+			controller.procesarRegistrarCliente(dto);
 		} catch (Exception ex) {
 			System.out.println(ex);
 		}

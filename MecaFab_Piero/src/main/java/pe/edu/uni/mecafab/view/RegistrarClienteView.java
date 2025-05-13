@@ -171,7 +171,7 @@ public class RegistrarClienteView extends javax.swing.JFrame {
 			dto.setFechaRegistro(LocalDateTime.now());
 			
 			// Proceso
-			controller.registrarCliente(dto);
+			controller.procesarRegistrarCliente(dto);
 			
 			// Reporte
 			JOptionPane.showMessageDialog(null, "Cliente Registrado Correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
