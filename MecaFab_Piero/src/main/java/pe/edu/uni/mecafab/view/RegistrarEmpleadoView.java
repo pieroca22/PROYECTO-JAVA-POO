@@ -147,7 +147,7 @@ public class RegistrarEmpleadoView extends javax.swing.JFrame {
 			dto.setIdRol(idRol);
 			
 			// Proceso
-			controlEmpleado.registrarEmpleado(dto);
+			controlEmpleado.procesarRegistrarEmpleado(dto);
 
 			// Reporte
 			JOptionPane.showMessageDialog(null, "Empleado Registrado Correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);

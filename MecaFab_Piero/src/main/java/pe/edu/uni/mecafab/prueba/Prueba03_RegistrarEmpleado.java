@@ -16,7 +16,7 @@ public class Prueba03_RegistrarEmpleado {
 
 			// Proceso
 			EmpleadoController controller = new EmpleadoController();
-			controller.registrarEmpleado(dto);
+			controller.procesarRegistrarEmpleado(dto);
 		} catch (Exception ex) {
 			System.out.println(ex);
 		}

@@ -66,12 +66,14 @@ public class ClienteRepository {
 	// Consultar Cliente
 	// ============================
 	public List<ClienteDto> consultarCliente(ClienteDto dto) throws SQLException, Exception {
+		
 		try {
 			
 			List<ClienteDto> lista = new ArrayList<>();
 			
 			cn = AccesoDB.getConnection();
-
+			
+			// EN MEJORA, HACERLO ESTILO WHATSAPP LA BUSQUEDA
 			String sql = """
                    SELECT * FROM Cliente
                    WHERE nombre COLLATE Latin1_General_CI_AI LIKE ? OR 
