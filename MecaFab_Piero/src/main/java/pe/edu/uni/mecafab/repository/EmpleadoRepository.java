@@ -17,9 +17,9 @@ public class EmpleadoRepository {
 	PreparedStatement ps = null;
 	ResultSet rs = null;
 	
-	// ============================
+	// ========================================================
 	// Registrar Empleado
-	// ============================
+	// ========================================================
 	public void registrarEmpleado(EmpleadoDto dto) throws SQLException, Exception {
 		try {
 			
@@ -58,9 +58,9 @@ public class EmpleadoRepository {
 		
 	}
 	
-	// ============================
-	// Consultar Empleado
-	// ============================
+	// ========================================================
+	// Consultar Empleado (Utilizamos EmpleadoConsultaDto)
+	// ========================================================
 	public List<EmpleadoConsultaDto> consultarEmpleado(EmpleadoConsultaDto dto) throws SQLException, Exception {
 		
 		try {
