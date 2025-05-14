@@ -3,7 +3,7 @@ package pe.edu.uni.mecafab.prueba;
 import pe.edu.uni.mecafab.controller.ClienteController;
 import pe.edu.uni.mecafab.dto.ClienteDto;
 
-public class Prueba02_ConsultarCliente {
+public class PruebaB2_ConsultarCliente {
 
 	public static void main(String[] args) {
 

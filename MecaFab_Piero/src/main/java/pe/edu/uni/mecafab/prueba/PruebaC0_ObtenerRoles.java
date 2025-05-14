@@ -4,7 +4,7 @@ import java.util.List;
 import pe.edu.uni.mecafab.controller.RolController;
 import pe.edu.uni.mecafab.dto.RolDto;
 
-public class Prueba04_ObtenerRoles {
+public class PruebaC0_ObtenerRoles {
 
 	public static void main(String[] args) {
 

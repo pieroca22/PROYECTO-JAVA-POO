@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import pe.edu.uni.mecafab.controller.ClienteController;
 import pe.edu.uni.mecafab.dto.ClienteDto;
 
-public class Prueba02_RegistrarCliente {
+public class PruebaB1_RegistrarCliente {
 	
 	public static void main(String[] args) {
 		

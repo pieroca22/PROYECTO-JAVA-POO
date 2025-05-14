@@ -1,6 +1,6 @@
 package pe.edu.uni.mecafab.dto;
 
-// SOLO PARA CONSULTAR EL EMPLEADO HEREDA DE "EmpleadoDto"
+// SOLO PARA CONSULTAR EL EMPLEADO, HEREDA DE "EmpleadoDto"
 public class EmpleadoConsultaDto extends EmpleadoDto{
 	
 	private String descripcionRol;

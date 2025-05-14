@@ -3,7 +3,7 @@ package pe.edu.uni.mecafab.prueba;
 import pe.edu.uni.mecafab.controller.EmpleadoController;
 import pe.edu.uni.mecafab.dto.EmpleadoConsultaDto;
 
-public class Prueba03_ConsultarEmpleado {
+public class PruebaC2_ConsultarEmpleado {
 
 	public static void main(String[] args) {
 

@@ -3,7 +3,7 @@ package pe.edu.uni.mecafab.prueba;
 import java.sql.Connection;
 import pe.edu.uni.mecafab.db.AccesoDB;
 
-public class Prueba01_Conexion {
+public class PruebaA1_Conexion {
     
     public static void main(String[] args) {
         try {
