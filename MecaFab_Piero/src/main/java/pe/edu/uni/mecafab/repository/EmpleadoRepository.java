@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import pe.edu.uni.mecafab.db.AccesoDB;
+import pe.edu.uni.mecafab.dto.EmpleadoConsultaDto;
 import pe.edu.uni.mecafab.dto.EmpleadoDto;
 import pe.edu.uni.mecafab.util.ValidarEmpleado;
 
@@ -60,29 +61,33 @@ public class EmpleadoRepository {
 	// ============================
 	// Consultar Empleado
 	// ============================
-	public List<EmpleadoDto> consultarEmpleado(EmpleadoDto dto) throws SQLException, Exception {
+	public List<EmpleadoConsultaDto> consultarEmpleado(EmpleadoConsultaDto dto) throws SQLException, Exception {
 		
 		try {
 
-			List<EmpleadoDto> lista = new ArrayList<>();
+			List<EmpleadoConsultaDto> lista = new ArrayList<>();
 			
 			cn = AccesoDB.getConnection();
 			
 			String sql = """
-                   SELECT * FROM Empleado em 
-                   WHERE nombre COLLATE Latin1_General_CI_AI LIKE ? OR 
-                   	  apellido COLLATE Latin1_General_CI_AI LIKE ?
+                   SELECT em.*, rl.descripcion FROM Empleado em 
+                   JOIN Rol rl ON rl.idRol = em.idRol 
+                   WHERE em.nombre COLLATE Latin1_General_CI_AI LIKE ? OR 
+                   	    em.apellido COLLATE Latin1_General_CI_AI LIKE ? OR 
+                   	    rl.descripcion COLLATE Latin1_General_CI_AI LIKE ?
 									""";
 			ps = cn.prepareStatement(sql);
 			ps.setString(1, "%" + dto.getNombre() + "%");
 			ps.setString(2, "%" + dto.getApellido() + "%");
+			ps.setString(3, "%" + dto.getDescripcionRol()+ "%");
 			
 			rs = ps.executeQuery();
 			while(rs.next()) {
-				EmpleadoDto empleado = new EmpleadoDto();
+				EmpleadoConsultaDto empleado = new EmpleadoConsultaDto();
 				empleado.setIdEmpleado(rs.getInt("idEmpleado"));
 				empleado.setNombre(rs.getString("nombre"));
 				empleado.setApellido(rs.getString("apellido"));
+				empleado.setDescripcionRol(rs.getString("descripcion"));
 				lista.add(empleado);
 			}
 			
