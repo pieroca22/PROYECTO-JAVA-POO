@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import pe.edu.uni.mecafab.db.AccesoDB;
 import pe.edu.uni.mecafab.dto.ClienteDto;
-import pe.edu.uni.mecafab.util.ValidarCliente;
+import pe.edu.uni.mecafab.util.StringUtil;
+import pe.edu.uni.mecafab.util.ValidarClienteUtil;
 
 public class ClienteRepository {
 
@@ -24,7 +25,15 @@ public class ClienteRepository {
 		
 		try {
 
-			ValidarCliente.validarCliente(dto);
+			// Limpiar y capitalizar el dto primero
+			dto.setNombre(StringUtil.limCap(dto.getNombre()));
+			dto.setApellido(StringUtil.limCap(dto.getApellido()));
+			dto.setTelefono(StringUtil.limpiar(dto.getTelefono()));
+			dto.setEmail(StringUtil.limpiar(dto.getEmail()));
+			dto.setDireccion(StringUtil.limpiar(dto.getDireccion()));
+			
+			// Validamos los datos
+			ValidarClienteUtil.validarDatos(dto);
 
 			cn = AccesoDB.getConnection();
 

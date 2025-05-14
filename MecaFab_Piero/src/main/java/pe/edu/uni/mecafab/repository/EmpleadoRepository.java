@@ -9,7 +9,8 @@ import java.util.List;
 import pe.edu.uni.mecafab.db.AccesoDB;
 import pe.edu.uni.mecafab.dto.EmpleadoConsultaDto;
 import pe.edu.uni.mecafab.dto.EmpleadoDto;
-import pe.edu.uni.mecafab.util.ValidarEmpleado;
+import pe.edu.uni.mecafab.util.StringUtil;
+import pe.edu.uni.mecafab.util.ValidarEmpleadoUtil;
 
 public class EmpleadoRepository {
 	
@@ -23,7 +24,11 @@ public class EmpleadoRepository {
 	public void registrarEmpleado(EmpleadoDto dto) throws SQLException, Exception {
 		try {
 			
-			ValidarEmpleado.validarEmpleado(dto);
+			// Limpiar y capitalizar el dto primero
+			dto.setNombre(StringUtil.limCap(dto.getNombre()));
+			dto.setApellido(StringUtil.limCap(dto.getApellido()));
+			
+			ValidarEmpleadoUtil.validarDatos(dto);
 			
 			cn = AccesoDB.getConnection();
 			
