@@ -69,6 +69,7 @@ public class EmpleadoRepository {
 			
 			cn = AccesoDB.getConnection();
 			
+			// EN MEJORA, HACERLO ESTILO WHATSAPP LA BUSQUEDA
 			String sql = """
                    SELECT em.*, rl.descripcion FROM Empleado em 
                    JOIN Rol rl ON rl.idRol = em.idRol 
