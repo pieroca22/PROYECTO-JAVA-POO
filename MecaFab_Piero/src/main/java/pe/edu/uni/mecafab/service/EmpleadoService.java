@@ -12,14 +12,14 @@ public class EmpleadoService {
 	//==============================
 	// REGISTRAR EMPLEADO
 	//==============================
-	public void registrarCliente(EmpleadoDto dto) throws SQLException, Exception {
+	public void registrarEmpleado(EmpleadoDto dto) throws SQLException, Exception {
 		clienteRepo.registrarEmpleado(dto);
 	}
 	
 	//==============================
 	// CONSULTAR EMPLEADO
 	//==============================
-	public List<EmpleadoDto> consultarCliente(EmpleadoDto dto) throws SQLException, Exception {
+	public List<EmpleadoDto> consultarEmpleado(EmpleadoDto dto) throws SQLException, Exception {
 		return clienteRepo.consultarEmpleado(dto);
 	}
 	
