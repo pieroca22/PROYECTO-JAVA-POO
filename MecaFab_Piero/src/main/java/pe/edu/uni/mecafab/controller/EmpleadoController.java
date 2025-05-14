@@ -11,12 +11,12 @@ public class EmpleadoController {
 	
 	// Registrar Empleado
 	public void procesarRegistrarEmpleado(EmpleadoDto dto) throws SQLException, Exception {
-		service.registrarCliente(dto);
+		service.registrarEmpleado(dto);
 	}
 	
 	// Consultar Empleado
 	public List<EmpleadoDto> procesarConsultarEmpleado(EmpleadoDto dto) throws SQLException, Exception {
-		return service.consultarCliente(dto);
+		return service.consultarEmpleado(dto);
 	}
 	
 }
