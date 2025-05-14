@@ -10,10 +10,9 @@ public class EmpleadoDto {
 	public EmpleadoDto() {
 	}
 
-	public EmpleadoDto(String nombre, String apellido, int idRol) {
+	public EmpleadoDto(String nombre, String apellido) {
 		this.nombre = nombre;
 		this.apellido = apellido;
-		this.idRol = idRol;
 	}
 
 	public int getIdEmpleado() {

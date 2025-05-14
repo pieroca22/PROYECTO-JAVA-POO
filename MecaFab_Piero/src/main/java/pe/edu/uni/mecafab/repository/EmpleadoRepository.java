@@ -71,13 +71,11 @@ public class EmpleadoRepository {
 			String sql = """
                    SELECT * FROM Empleado em 
                    WHERE nombre COLLATE Latin1_General_CI_AI LIKE ? OR 
-                   	  apellido COLLATE Latin1_General_CI_AI LIKE ? OR 
-                   	  (SELECT descripcion FROM Rol rl WHERE rl.idRol = em.idRol) COLLATE Latin1_General_CI_AI LIKE ?
+                   	  apellido COLLATE Latin1_General_CI_AI LIKE ?
 									""";
 			ps = cn.prepareStatement(sql);
-			ps.setString(1, dto.getNombre());
-			ps.setString(2, dto.getApellido());
-			ps.setString(3, rol);
+			ps.setString(1, "%" + dto.getNombre() + "%");
+			ps.setString(2, "%" + dto.getApellido() + "%");
 			
 			rs = ps.executeQuery();
 			while(rs.next()) {
@@ -85,7 +83,6 @@ public class EmpleadoRepository {
 				empleado.setIdEmpleado(rs.getInt("idEmpleado"));
 				empleado.setNombre(rs.getString("nombre"));
 				empleado.setApellido(rs.getString("apellido"));
-				empleado.setIdRol(rs.getInt("idRol"));
 				lista.add(empleado);
 			}
 			
