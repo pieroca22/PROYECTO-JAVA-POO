@@ -54,7 +54,7 @@ public class ClienteRepository {
 			System.out.println("Cliente registrado: " + filas + " fila(s) afectada(s)");
 
 		} catch (SQLException e) {
-			throw new SQLException("Error al conectar a la BD.");
+			throw new SQLException("Error al conectar a la BD." + e.getMessage());
 		} catch (Exception e) {
 			throw new Exception("Error inesperado: " + e.getMessage());
 		} finally {
