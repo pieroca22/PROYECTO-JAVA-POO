@@ -1,7 +1,7 @@
 package pe.edu.uni.mecafab.prueba;
 
 import pe.edu.uni.mecafab.controller.ClienteController;
-import pe.edu.uni.mecafab.dto.ClienteDto;
+import pe.edu.uni.mecafab.dto.ClienteConsultaDto;
 
 public class PruebaB2_ConsultarCliente {
 
@@ -9,16 +9,15 @@ public class PruebaB2_ConsultarCliente {
 
 		try {
 			// Datos
-			ClienteDto dto = new ClienteDto("p", "p", "91ads1", "adsaf@gmail.com", "easda");
+			String patron = "9";
 			
 			// Proceso
 			ClienteController controller = new ClienteController();
 
 			// Reporte
-			for (ClienteDto cliente : controller.procesarConsultarCliente(dto)) {
+			for (ClienteConsultaDto cliente : controller.procesarConsultarCliente(patron)) {
 				System.out.println("ID CLIENTE: " + cliente.getIdCliente() + "\t" +
-													 "NOMBRE: " + cliente.getNombre() + "\t" +
-													 "APELLIDO: " + cliente.getApellido() + "\t" + 
+													 "CLIENTE: " + cliente.getCliente()+ "\t" + 
 													 "TELEFONO: " + cliente.getTelefono() + "\t" +
 													 "EMAIL: " + cliente.getEmail() + "\t" + 
 													 "DIRECCION: " + cliente.getDireccion() + "\t" +

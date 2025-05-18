@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import pe.edu.uni.mecafab.db.AccesoDB;
 import pe.edu.uni.mecafab.dto.EmpleadoConsultaDto;
-import pe.edu.uni.mecafab.dto.EmpleadoDto;
+import pe.edu.uni.mecafab.dto.EmpleadoRegistroDto;
 import pe.edu.uni.mecafab.util.StringUtil;
 import pe.edu.uni.mecafab.util.ValidarEmpleadoUtil;
 
@@ -21,7 +21,7 @@ public class EmpleadoRepository {
 	// ========================================================
 	// Registrar Empleado
 	// ========================================================
-	public void registrarEmpleado(EmpleadoDto dto) throws SQLException, Exception {
+	public void registrarEmpleado(EmpleadoRegistroDto dto) throws SQLException, Exception {
 		try {
 			
 			// Limpiar y capitalizar el dto primero
@@ -46,7 +46,7 @@ public class EmpleadoRepository {
 			System.out.println("Empleado registrado: " + filas + " fila(s) afectada(s)");
 			
 		} catch (SQLException e) {
-			throw new SQLException("Error al conectar a la BD.");
+			throw new SQLException("Error al conectar a la BD." + e.getMessage());
 		} catch(Exception e) {
 			throw new Exception("Error inesperado: " + e.getMessage());
 		} finally {
@@ -66,7 +66,7 @@ public class EmpleadoRepository {
 	// ========================================================
 	// Consultar Empleado (Utilizamos EmpleadoConsultaDto)
 	// ========================================================
-	public List<EmpleadoConsultaDto> consultarEmpleado(EmpleadoConsultaDto dto) throws SQLException, Exception {
+	public List<EmpleadoConsultaDto> consultarEmpleado(String patron) throws SQLException, Exception {
 		
 		try {
 
@@ -76,23 +76,26 @@ public class EmpleadoRepository {
 			
 			// EN MEJORA, HACERLO ESTILO WHATSAPP LA BUSQUEDA
 			String sql = """
-                   SELECT em.*, rl.descripcion FROM Empleado em 
+                   SELECT em.idEmpleado, CONCAT(em.nombre,' ',em.apellido) AS empleado, 
+									em.idRol, 
+									rl.descripcion 
+									FROM Empleado em 
                    JOIN Rol rl ON rl.idRol = em.idRol 
                    WHERE em.nombre COLLATE Latin1_General_CI_AI LIKE ? OR 
                    	    em.apellido COLLATE Latin1_General_CI_AI LIKE ? OR 
                    	    rl.descripcion COLLATE Latin1_General_CI_AI LIKE ?
 									""";
 			ps = cn.prepareStatement(sql);
-			ps.setString(1, "%" + dto.getNombre() + "%");
-			ps.setString(2, "%" + dto.getApellido() + "%");
-			ps.setString(3, "%" + dto.getDescripcionRol()+ "%");
+			ps.setString(1, "%" + patron + "%");
+			ps.setString(2, "%" + patron + "%");
+			ps.setString(3, "%" + patron + "%");
 			
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				EmpleadoConsultaDto empleado = new EmpleadoConsultaDto();
 				empleado.setIdEmpleado(rs.getInt("idEmpleado"));
-				empleado.setNombre(rs.getString("nombre"));
-				empleado.setApellido(rs.getString("apellido"));
+				empleado.setEmpleado(rs.getString("empleado"));
+				empleado.setIdRol(rs.getInt("idRol"));
 				empleado.setDescripcionRol(rs.getString("descripcion"));
 				lista.add(empleado);
 			}
@@ -100,7 +103,7 @@ public class EmpleadoRepository {
 			return lista;
 			
 		} catch (SQLException e) {
-			throw new SQLException("Error al conectar a la BD.");
+			throw new SQLException("Error al conectar a la BD." + e.getMessage());
 		} catch(Exception e) {
 			throw new Exception("Error inesperado: " + e.getMessage());
 		} finally {

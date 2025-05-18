@@ -4,17 +4,17 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import pe.edu.uni.mecafab.controller.EmpleadoController;
 import pe.edu.uni.mecafab.controller.RolController;
-import pe.edu.uni.mecafab.dto.EmpleadoDto;
+import pe.edu.uni.mecafab.dto.EmpleadoRegistroDto;
 import pe.edu.uni.mecafab.dto.RolDto;
 
-public class RegistrarEmpleadoView extends javax.swing.JFrame {
+public class C1_RegistrarEmpleadoView extends javax.swing.JFrame {
 
 	EmpleadoController controlEmpleado = new EmpleadoController();
 	RolController controlRol = new RolController();
 	// Creamos un List antes de llamarlo en "llenarCombo" para poder usarlo en btnRegistrar
 	private List<RolDto> listaRoles;
 
-	public RegistrarEmpleadoView() {
+	public C1_RegistrarEmpleadoView() {
 		initComponents();
 		setLocationRelativeTo(null);
 		inicializarFormulario();
@@ -134,7 +134,7 @@ public class RegistrarEmpleadoView extends javax.swing.JFrame {
 		try {
 
 			// Datos
-			EmpleadoDto dto = new EmpleadoDto();
+			EmpleadoRegistroDto dto = new EmpleadoRegistroDto();
 			dto.setNombre(txtNombre.getText());
 			dto.setApellido(txtApellido.getText());
 			
@@ -181,21 +181,27 @@ public class RegistrarEmpleadoView extends javax.swing.JFrame {
 				}
 			}
 		} catch (ClassNotFoundException ex) {
-			java.util.logging.Logger.getLogger(RegistrarEmpleadoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+			java.util.logging.Logger.getLogger(C1_RegistrarEmpleadoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		} catch (InstantiationException ex) {
-			java.util.logging.Logger.getLogger(RegistrarEmpleadoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+			java.util.logging.Logger.getLogger(C1_RegistrarEmpleadoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		} catch (IllegalAccessException ex) {
-			java.util.logging.Logger.getLogger(RegistrarEmpleadoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+			java.util.logging.Logger.getLogger(C1_RegistrarEmpleadoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
-			java.util.logging.Logger.getLogger(RegistrarEmpleadoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+			java.util.logging.Logger.getLogger(C1_RegistrarEmpleadoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		}
+		//</editor-fold>
+		//</editor-fold>
+		//</editor-fold>
+		//</editor-fold>
+		//</editor-fold>
+		//</editor-fold>
 		//</editor-fold>
 		//</editor-fold>
 
 		/* Create and display the form */
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				new RegistrarEmpleadoView().setVisible(true);
+				new C1_RegistrarEmpleadoView().setVisible(true);
 			}
 		});
 	}

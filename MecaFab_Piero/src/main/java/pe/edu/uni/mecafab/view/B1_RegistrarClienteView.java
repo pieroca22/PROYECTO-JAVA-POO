@@ -3,13 +3,13 @@ package pe.edu.uni.mecafab.view;
 import java.time.LocalDateTime;
 import javax.swing.JOptionPane;
 import pe.edu.uni.mecafab.controller.ClienteController;
-import pe.edu.uni.mecafab.dto.ClienteDto;
+import pe.edu.uni.mecafab.dto.ClienteRegistroDto;
 
-public class RegistrarClienteView extends javax.swing.JFrame {
+public class B1_RegistrarClienteView extends javax.swing.JFrame {
 	
 	ClienteController controller = new ClienteController();
 	
-	public RegistrarClienteView() {
+	public B1_RegistrarClienteView() {
 		initComponents();
 		setLocationRelativeTo(null);
 		inicializarFormulario();
@@ -162,7 +162,7 @@ public class RegistrarClienteView extends javax.swing.JFrame {
 		try {
 			
 			// Datos
-			ClienteDto dto = new ClienteDto();
+			ClienteRegistroDto dto = new ClienteRegistroDto();
 			dto.setNombre(txtNombre.getText());
 			dto.setApellido(txtApellido.getText());
 			dto.setTelefono(txtTelefono.getText());
@@ -201,20 +201,23 @@ public class RegistrarClienteView extends javax.swing.JFrame {
 				}
 			}
 		} catch (ClassNotFoundException ex) {
-			java.util.logging.Logger.getLogger(RegistrarClienteView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+			java.util.logging.Logger.getLogger(B1_RegistrarClienteView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		} catch (InstantiationException ex) {
-			java.util.logging.Logger.getLogger(RegistrarClienteView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+			java.util.logging.Logger.getLogger(B1_RegistrarClienteView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		} catch (IllegalAccessException ex) {
-			java.util.logging.Logger.getLogger(RegistrarClienteView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+			java.util.logging.Logger.getLogger(B1_RegistrarClienteView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
-			java.util.logging.Logger.getLogger(RegistrarClienteView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+			java.util.logging.Logger.getLogger(B1_RegistrarClienteView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		}
+		//</editor-fold>
+		//</editor-fold>
+		//</editor-fold>
 		//</editor-fold>
 
 		/* Create and display the form */
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				new RegistrarClienteView().setVisible(true);
+				new B1_RegistrarClienteView().setVisible(true);
 			}
 		});
 	}

@@ -1,20 +1,21 @@
 package pe.edu.uni.mecafab.view;
 
+import java.time.format.DateTimeFormatter; // Para cambiar el formato de la fecha
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import pe.edu.uni.mecafab.controller.EmpleadoController;
-import pe.edu.uni.mecafab.dto.EmpleadoConsultaDto;
+import pe.edu.uni.mecafab.controller.ClienteController;
+import pe.edu.uni.mecafab.dto.ClienteConsultaDto;
 
-public class ConsultarEmpleado extends javax.swing.JFrame {
+public class B2_ConsultarClienteView extends javax.swing.JFrame {
 	
 	// Constructor de la ventana
-	public ConsultarEmpleado() {
+	public B2_ConsultarClienteView() {
 		initComponents();
 		setLocationRelativeTo(null);
 	}
 	
 	// Iniciar Controlador
-	EmpleadoController controller = new EmpleadoController();
+	ClienteController controller = new ClienteController();
 	
 	@SuppressWarnings("unchecked")
   // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -33,21 +34,21 @@ public class ConsultarEmpleado extends javax.swing.JFrame {
 
     jLabel5.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
 
-    jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Consultar Empleado", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 1, 36), new java.awt.Color(0, 153, 255))); // NOI18N
+    jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Consultar Cliente", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 1, 36), new java.awt.Color(0, 153, 255))); // NOI18N
 
     tblReport.setModel(new javax.swing.table.DefaultTableModel(
       new Object [][] {
-        {null, null, null, null},
-        {null, null, null, null},
-        {null, null, null, null},
-        {null, null, null, null}
+        {null, null, null, null, null, null},
+        {null, null, null, null, null, null},
+        {null, null, null, null, null, null},
+        {null, null, null, null, null, null}
       },
       new String [] {
-        "ID", "Nombre", "Apellido", "Rol"
+        "ID", "Cliente", "Teléfono", "Email", "Direccion", "Fecha de Registro"
       }
     ) {
       Class[] types = new Class [] {
-        java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+        java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
       };
 
       public Class getColumnClass(int columnIndex) {
@@ -135,18 +136,21 @@ public class ConsultarEmpleado extends javax.swing.JFrame {
   private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
 		try {
 			// Datos
-			EmpleadoConsultaDto dto = new EmpleadoConsultaDto(txtBuscador.getText(),txtBuscador.getText(),txtBuscador.getText());
+			String patron = txtBuscador.getText();
 			
 			// Reporte
 			DefaultTableModel tabla;
 			tabla = (DefaultTableModel) tblReport.getModel();
 			tabla.setRowCount(0);
-			for (EmpleadoConsultaDto cliente : controller.procesarConsultarEmpleado(dto)) {
+			for (ClienteConsultaDto cliente : controller.procesarConsultarCliente(patron)) {
 				Object[] row = {
-					cliente.getIdEmpleado(),
-					cliente.getNombre(),
-					cliente.getApellido(), 
-					cliente.getDescripcionRol(), 
+					cliente.getIdCliente(),
+					cliente.getCliente(),
+					cliente.getTelefono(), 
+					cliente.getEmail(), 
+					cliente.getDireccion(),
+					// Cambiar el formato de la fecha
+					cliente.getFechaRegistro().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
 				};
 				tabla.addRow(row);
 			}
@@ -177,19 +181,19 @@ public class ConsultarEmpleado extends javax.swing.JFrame {
 				}
 			}
 		} catch (ClassNotFoundException ex) {
-			java.util.logging.Logger.getLogger(ConsultarEmpleado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+			java.util.logging.Logger.getLogger(B2_ConsultarClienteView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		} catch (InstantiationException ex) {
-			java.util.logging.Logger.getLogger(ConsultarEmpleado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+			java.util.logging.Logger.getLogger(B2_ConsultarClienteView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		} catch (IllegalAccessException ex) {
-			java.util.logging.Logger.getLogger(ConsultarEmpleado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+			java.util.logging.Logger.getLogger(B2_ConsultarClienteView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
-			java.util.logging.Logger.getLogger(ConsultarEmpleado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+			java.util.logging.Logger.getLogger(B2_ConsultarClienteView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		}
 		//</editor-fold>
 		/* Create and display the form */
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				new ConsultarEmpleado().setVisible(true);
+				new B2_ConsultarClienteView().setVisible(true);
 			}
 		});
 	}

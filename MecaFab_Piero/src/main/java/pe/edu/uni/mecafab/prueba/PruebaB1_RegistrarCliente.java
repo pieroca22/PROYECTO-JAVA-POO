@@ -2,7 +2,7 @@ package pe.edu.uni.mecafab.prueba;
 
 import java.time.LocalDateTime;
 import pe.edu.uni.mecafab.controller.ClienteController;
-import pe.edu.uni.mecafab.dto.ClienteDto;
+import pe.edu.uni.mecafab.dto.ClienteRegistroDto;
 
 public class PruebaB1_RegistrarCliente {
 	
@@ -10,7 +10,7 @@ public class PruebaB1_RegistrarCliente {
 		
 		try {
 			// Datos
-			ClienteDto dto = new ClienteDto();
+			ClienteRegistroDto dto = new ClienteRegistroDto();
 			dto.setNombre("Jose");
 			dto.setApellido("Karlos");
 			dto.setTelefono("903723128");

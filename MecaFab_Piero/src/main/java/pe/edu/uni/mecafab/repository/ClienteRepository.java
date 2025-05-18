@@ -8,7 +8,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import pe.edu.uni.mecafab.db.AccesoDB;
-import pe.edu.uni.mecafab.dto.ClienteDto;
+import pe.edu.uni.mecafab.dto.ClienteConsultaDto;
+import pe.edu.uni.mecafab.dto.ClienteRegistroDto;
 import pe.edu.uni.mecafab.util.StringUtil;
 import pe.edu.uni.mecafab.util.ValidarClienteUtil;
 
@@ -21,7 +22,7 @@ public class ClienteRepository {
 	// ============================
 	// Registrar Cliente
 	// ============================
-	public void registrarCliente(ClienteDto dto) throws SQLException, Exception {
+	public void registrarCliente(ClienteRegistroDto dto) throws SQLException, Exception {
 		
 		try {
 
@@ -74,36 +75,39 @@ public class ClienteRepository {
 	// ============================
 	// Consultar Cliente
 	// ============================
-	public List<ClienteDto> consultarCliente(ClienteDto dto) throws SQLException, Exception {
+	public List<ClienteConsultaDto> consultarCliente(String patron) throws SQLException, Exception {
+		
+		List<ClienteConsultaDto> lista = new ArrayList<>();
 		
 		try {
-			
-			List<ClienteDto> lista = new ArrayList<>();
 			
 			cn = AccesoDB.getConnection();
 			
 			// EN MEJORA, HACERLO ESTILO WHATSAPP LA BUSQUEDA
 			String sql = """
-                   SELECT * FROM Cliente
+                   SELECT 
+									idCliente, CONCAT(nombre,' ',apellido) AS cliente, apellido,
+                   telefono, email, direccion, fechaRegistro 
+									FROM Cliente 
                    WHERE nombre COLLATE Latin1_General_CI_AI LIKE ? OR 
                          apellido COLLATE Latin1_General_CI_AI LIKE ? OR 
                          telefono LIKE ? OR 
                          email LIKE ? OR 
                          direccion COLLATE Latin1_General_CI_AI LIKE ?
 									""";
+			
 			ps = cn.prepareStatement(sql);
-			ps.setString(1, "%" + dto.getNombre() + "%");
-			ps.setString(2, "%" + dto.getApellido() + "%");
-			ps.setString(3, "%" + dto.getTelefono() + "%");
-			ps.setString(4, "%" + dto.getEmail() + "%");
-			ps.setString(5, "%" + dto.getDireccion() + "%");
+			ps.setString(1, "%" + patron + "%");
+			ps.setString(2, "%" + patron + "%");
+			ps.setString(3, "%" + patron + "%");
+			ps.setString(4, "%" + patron + "%");
+			ps.setString(5, "%" + patron + "%");
 
 			rs = ps.executeQuery();
 			while(rs.next()) {
-				ClienteDto cliente = new ClienteDto();
+				ClienteConsultaDto cliente = new ClienteConsultaDto();
 				cliente.setIdCliente(rs.getInt("idCliente"));
-				cliente.setNombre(rs.getString("nombre"));
-				cliente.setApellido(rs.getString("apellido"));
+				cliente.setCliente(rs.getString("cliente"));
 				cliente.setTelefono(rs.getString("telefono"));
 				cliente.setEmail(rs.getString("email"));
 				cliente.setDireccion(rs.getString("direccion"));
@@ -111,10 +115,10 @@ public class ClienteRepository {
 				lista.add(cliente);
 			}
 			
-			return lista;
+			
 			
 		} catch (SQLException e) {
-			throw new SQLException("Error al conectar a la BD.");
+			throw new SQLException("Error al conectar a la BD." + e.getMessage());
 		} catch (Exception e) {
 			throw new Exception("Error inesperado: " + e.getMessage());
 		} finally {
@@ -128,7 +132,9 @@ public class ClienteRepository {
 			} catch (Exception e) {
 			}
 		}
-
+		
+		return lista;
+		
 	}
 
 

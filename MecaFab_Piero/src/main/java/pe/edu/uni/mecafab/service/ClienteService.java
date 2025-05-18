@@ -2,7 +2,8 @@ package pe.edu.uni.mecafab.service;
 
 import java.sql.SQLException;
 import java.util.List;
-import pe.edu.uni.mecafab.dto.ClienteDto;
+import pe.edu.uni.mecafab.dto.ClienteConsultaDto;
+import pe.edu.uni.mecafab.dto.ClienteRegistroDto;
 import pe.edu.uni.mecafab.repository.ClienteRepository;
 
 public class ClienteService {
@@ -12,15 +13,15 @@ public class ClienteService {
 	//==============================
 	// REGISTRAR CLIENTE
 	//==============================
-	public void registrarCliente(ClienteDto dto) throws SQLException, Exception {
+	public void registrarCliente(ClienteRegistroDto dto) throws SQLException, Exception {
 		clienteRepo.registrarCliente(dto);
 	}
 	
 	//==============================
 	// CONSULTAR CLIENTE
 	//==============================
-	public List<ClienteDto> consultarCliente(ClienteDto dto) throws SQLException, Exception {
-		return clienteRepo.consultarCliente(dto);
+	public List<ClienteConsultaDto> consultarCliente(String patron) throws SQLException, Exception {
+		return clienteRepo.consultarCliente(patron);
 	}
 	
 }

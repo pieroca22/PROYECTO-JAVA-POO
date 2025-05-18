@@ -1,10 +1,10 @@
 package pe.edu.uni.mecafab.util;
 
-import pe.edu.uni.mecafab.dto.ClienteDto;
+import pe.edu.uni.mecafab.dto.ClienteRegistroDto;
 
 public interface ValidarClienteUtil {
 
-	public static void validarDatos(ClienteDto dto) throws Exception {
+	public static void validarDatos(ClienteRegistroDto dto) throws Exception {
 
 		// Solo letras y espacios
 		String patronTexto = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$";

@@ -9,16 +9,15 @@ public class PruebaC2_ConsultarEmpleado {
 
 		try {
 			// Datos
-			EmpleadoConsultaDto dto = new EmpleadoConsultaDto("z", "z", "admin");
+			String patron = "a";
 			
 			// Proceso
 			EmpleadoController controller = new EmpleadoController();
 
 			// Reporte
-			for (EmpleadoConsultaDto empleado : controller.procesarConsultarEmpleado(dto)) {
+			for (EmpleadoConsultaDto empleado : controller.procesarConsultarEmpleado(patron)) {
 				System.out.println("ID EMPLEADO: " + empleado.getIdEmpleado() + "\t" +
-													 "NOMBRE: " + empleado.getNombre() + "\t" +
-													 "APELLIDO: " + empleado.getNombre() + "\t" +
+													 "EMPLEADO: " + empleado.getEmpleado()+ "\t" +
 													 "ROL: " + empleado.getDescripcionRol()+ "\n"
 								);
 			}
