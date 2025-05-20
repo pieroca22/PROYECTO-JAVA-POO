@@ -5,6 +5,8 @@ import java.util.List;
 import pe.edu.uni.mecafab.dto.ClienteConsultaDto;
 import pe.edu.uni.mecafab.dto.ClienteRegistroDto;
 import pe.edu.uni.mecafab.repository.ClienteRepository;
+import pe.edu.uni.mecafab.util.StringUtil;
+import pe.edu.uni.mecafab.validator.ValidarCliente;
 
 public class ClienteService {
 	
@@ -13,8 +15,19 @@ public class ClienteService {
 	//==============================
 	// REGISTRAR CLIENTE
 	//==============================
-	public void registrarCliente(ClienteRegistroDto dto) throws SQLException, Exception {
-		clienteRepo.registrarCliente(dto);
+	public int registrarCliente(ClienteRegistroDto dto) throws SQLException, Exception {
+		
+		// Limpiamos y capitalizamos los datos
+		dto.setNombre(StringUtil.limCap(dto.getNombre()));
+		dto.setApellido(StringUtil.limCap(dto.getApellido()));
+		dto.setTelefono(StringUtil.limCap(dto.getTelefono()));
+		dto.setEmail(StringUtil.limCap(dto.getEmail()));
+		dto.setDireccion(StringUtil.limCap(dto.getDireccion()));
+		
+		// Verificamos que sea valido los datos ingresados
+		ValidarCliente.validarDatos(dto);
+		
+		return clienteRepo.registrarCliente(dto);
 	}
 	
 	//==============================

@@ -4,14 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import pe.edu.uni.mecafab.db.AccesoDB;
 import pe.edu.uni.mecafab.dto.ClienteConsultaDto;
 import pe.edu.uni.mecafab.dto.ClienteRegistroDto;
-import pe.edu.uni.mecafab.util.StringUtil;
-import pe.edu.uni.mecafab.util.ValidarClienteUtil;
+import pe.edu.uni.mecafab.util.JdbcUtil;
 
 public class ClienteRepository {
 
@@ -22,28 +22,21 @@ public class ClienteRepository {
 	// ============================
 	// Registrar Cliente
 	// ============================
-	public void registrarCliente(ClienteRegistroDto dto) throws SQLException, Exception {
+	public int registrarCliente(ClienteRegistroDto dto) throws SQLException, Exception {
+		
+		int idCliente = -1;
 		
 		try {
 
-			// Limpiar y capitalizar el dto primero
-			dto.setNombre(StringUtil.limCap(dto.getNombre()));
-			dto.setApellido(StringUtil.limCap(dto.getApellido()));
-			dto.setTelefono(StringUtil.limpiar(dto.getTelefono()));
-			dto.setEmail(StringUtil.limpiar(dto.getEmail()));
-			dto.setDireccion(StringUtil.limpiar(dto.getDireccion()));
-			
-			// Validamos los datos
-			ValidarClienteUtil.validarDatos(dto);
-
 			cn = AccesoDB.getConnection();
+			cn.setAutoCommit(false);
 
 			String sql = """
                    INSERT INTO Cliente 
 									(nombre, apellido, telefono, email, direccion, fechaRegistro) 
                    VALUES (?, ?, ?, ?, ?, ?)
 									""";
-			ps = cn.prepareStatement(sql);
+			ps = cn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, dto.getNombre());
 			ps.setString(2, dto.getApellido());
 			ps.setString(3, dto.getTelefono());
@@ -53,23 +46,26 @@ public class ClienteRepository {
 
 			int filas = ps.executeUpdate();
 			System.out.println("Cliente registrado: " + filas + " fila(s) afectada(s)");
+			
+			rs = ps.getGeneratedKeys();
+			if(rs.next()) {
+				idCliente = rs.getInt(1);
+			}
+			
+			cn.commit();
 
 		} catch (SQLException e) {
-			throw new SQLException("Error al conectar a la BD." + e.getMessage());
+			JdbcUtil.rollback(cn);
+			throw new SQLException("Error al conectar a la BD." + e);
 		} catch (Exception e) {
-			throw new Exception("Error inesperado: " + e.getMessage());
+			JdbcUtil.rollback(cn);
+			throw new Exception("Error inesperado: " + e);
 		} finally {
-			try {
-				if (ps != null) {
-					ps.close();
-				}
-				if (cn != null) {
-					cn.close();
-				}
-			} catch (Exception e) {
-			}
+			JdbcUtil.cerrar(cn, ps, rs);
 		}
-
+		
+		return idCliente;
+		
 	}
 
 	// ============================
@@ -115,22 +111,12 @@ public class ClienteRepository {
 				lista.add(cliente);
 			}
 			
-			
-			
 		} catch (SQLException e) {
 			throw new SQLException("Error al conectar a la BD." + e.getMessage());
 		} catch (Exception e) {
 			throw new Exception("Error inesperado: " + e.getMessage());
 		} finally {
-			try {
-				if (ps != null) {
-					ps.close();
-				}
-				if (cn != null) {
-					cn.close();
-				}
-			} catch (Exception e) {
-			}
+			JdbcUtil.cerrar(cn, ps, rs);
 		}
 		
 		return lista;

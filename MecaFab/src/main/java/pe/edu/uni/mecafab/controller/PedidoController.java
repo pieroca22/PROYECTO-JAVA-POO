@@ -24,4 +24,11 @@ public class PedidoController {
 		return pedidoService.consultarPedido(patron);
 	}
 	
+	// ============================
+	// Listar Pedidos en inicio de espera (Para la asignacion del empleado)
+	// ============================
+	public List<PedidoConsultaDto> procesarListarPedido() throws SQLException, Exception {
+		return pedidoService.listarPedidos();
+	}
+	
 }

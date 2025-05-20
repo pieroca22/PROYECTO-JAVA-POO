@@ -5,6 +5,7 @@ import java.util.List;
 import pe.edu.uni.mecafab.dto.EmpleadoConsultaDto;
 import pe.edu.uni.mecafab.dto.EmpleadoRegistroDto;
 import pe.edu.uni.mecafab.repository.EmpleadoRepository;
+import pe.edu.uni.mecafab.validator.ValidarEmpleado;
 
 public class EmpleadoService {
 	
@@ -13,8 +14,10 @@ public class EmpleadoService {
 	//==============================
 	// REGISTRAR EMPLEADO
 	//==============================
-	public void registrarEmpleado(EmpleadoRegistroDto dto) throws SQLException, Exception {
-		clienteRepo.registrarEmpleado(dto);
+	public int registrarEmpleado(EmpleadoRegistroDto dto) throws SQLException, Exception {
+		
+		ValidarEmpleado.validarDatos(dto);
+		return clienteRepo.registrarEmpleado(dto);
 	}
 	
 	//==============================

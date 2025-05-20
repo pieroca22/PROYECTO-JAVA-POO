@@ -10,8 +10,8 @@ public class ClienteController {
 	ClienteService service = new ClienteService();
 	
 	// REGISTRAR CLIENTE
-	public void procesarRegistrarCliente(ClienteRegistroDto dto) throws SQLException, Exception {
-		service.registrarCliente(dto);
+	public int procesarRegistrarCliente(ClienteRegistroDto dto) throws SQLException, Exception {
+		return service.registrarCliente(dto);
 	}
 	
 	// CONSULTAR CLIENTE

@@ -24,4 +24,11 @@ public class PedidoService {
 		return pedidoRepo.consultarPedido(patron);
 	}
 	
+	// ============================
+	// Listar Pedidos en inicio de espera (Para la asignacion del empleado)
+	// ============================
+	public List<PedidoConsultaDto> listarPedidos() throws SQLException, Exception {
+		return pedidoRepo.listarPedidos();
+	}
+	
 }

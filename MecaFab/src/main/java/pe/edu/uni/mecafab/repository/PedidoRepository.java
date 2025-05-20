@@ -9,9 +9,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import pe.edu.uni.mecafab.db.AccesoDB;
-import pe.edu.uni.mecafab.dto.EmpleadoConsultaDto;
 import pe.edu.uni.mecafab.dto.PedidoConsultaDto;
 import pe.edu.uni.mecafab.dto.PedidoRegistroDto;
+import pe.edu.uni.mecafab.util.JdbcUtil;
 
 public class PedidoRepository {
 	
@@ -29,6 +29,7 @@ public class PedidoRepository {
 		try {
 			
 			cn = AccesoDB.getConnection();
+			cn.setAutoCommit(false);
 			
 			String sql = """
             INSERT INTO 
@@ -49,9 +50,13 @@ public class PedidoRepository {
 				idPedido = rs.getInt(1);
 			}
 			
+			cn.commit();
+			
 		} catch (SQLException e) {
+			JdbcUtil.rollback(cn);
 			throw new SQLException("Error al conectar a la BD." + e.getMessage());
 		} catch (Exception e) {
+			JdbcUtil.rollback(cn);
 			throw new Exception("Error inesperado: " + e.getMessage());
 		} finally {
 			try {
@@ -79,8 +84,9 @@ public class PedidoRepository {
 			String sql = """
 					SELECT pe.idPedido, pe.idCliente, 
 							 CONCAT(cl.nombre,' ',cl.apellido) AS cliente, 
-							 pe.descripcion, pe.fechaSolicitud, pe.fechaComprometida,  
-							 pe.idEstado, es.descripcion AS estado
+							 pe.descripcion AS descripcionPedido, 
+                pe.fechaSolicitud, pe.fechaComprometida,  
+							 pe.idEstado, es.descripcion AS descripcionEstado
 					FROM Pedido pe 
 					JOIN Cliente cl ON cl.idCliente = pe.idCliente 
 					JOIN Estado es ON es.idEstado = pe.idEstado 
@@ -100,11 +106,11 @@ public class PedidoRepository {
 				empleado.setIdPedido(rs.getInt("idPedido"));
 				empleado.setIdCliente(rs.getInt("idCliente"));
 				empleado.setCliente(rs.getString("cliente"));
-				empleado.setDescripcion(rs.getString("descripcion"));
+				empleado.setDescripcion(rs.getString("descripcionPedido"));
 				empleado.setFechaSolicitud(rs.getTimestamp("fechaSolicitud").toLocalDateTime());
 				empleado.setFechaComprometida(rs.getDate("fechaComprometida"));
 				empleado.setIdEstado(rs.getInt("idEstado"));
-				empleado.setEstado(rs.getString("estado"));
+				empleado.setEstado(rs.getString("descripcionEstado"));
 				lista.add(empleado);
 			}
 			
@@ -113,12 +119,59 @@ public class PedidoRepository {
 		} catch (Exception e) {
 			throw new Exception("Error inesperado: " + e.getMessage());
 		} finally {
-			try {
-				if (rs != null) rs.close();
-				if (ps != null) ps.close();
-				if (cn != null) cn.close();
-			} catch (Exception e) {
+			JdbcUtil.cerrar(cn, ps, rs);
+		}
+		
+		return lista;
+	}
+	
+	// ============================
+	// Listar Pedidos en inicio de espera (Para la asignacion del empleado)
+	// ============================
+	public List<PedidoConsultaDto> listarPedidos() throws SQLException, Exception {
+		
+		List<PedidoConsultaDto> lista = new ArrayList<>();
+		
+		try {
+			
+			cn = AccesoDB.getConnection();
+			
+			String sql = """
+            SELECT pe.idPedido, 
+            	   pe.descripcion AS descripcionPedido, 
+                   pe.fechaSolicitud, pe.fechaComprometida, 
+                   pe.idCliente, 
+                   CONCAT(cl.nombre,' ',cl.apellido) AS cliente, 
+                   pe.idEstado, 
+                   est.descripcion AS descripcionEstado 
+            FROM Pedido pe 
+            JOIN Cliente cl ON pe.idCliente = cl.idCliente
+            JOIN Estado est ON pe.idEstado = est.idEstado
+            WHERE pe.idEstado = 1 
+            ORDER BY pe.fechaSolicitud 
+                """;
+			
+			ps = cn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				PedidoConsultaDto empleado = new PedidoConsultaDto();
+				empleado.setIdPedido(rs.getInt("idPedido"));
+				empleado.setIdCliente(rs.getInt("idCliente"));
+				empleado.setCliente(rs.getString("cliente"));
+				empleado.setDescripcion(rs.getString("descripcionPedido"));
+				empleado.setFechaSolicitud(rs.getTimestamp("fechaSolicitud").toLocalDateTime());
+				empleado.setFechaComprometida(rs.getDate("fechaComprometida"));
+				empleado.setIdEstado(rs.getInt("idEstado"));
+				empleado.setEstado(rs.getString("descripcionEstado"));
+				lista.add(empleado);
 			}
+			
+		} catch (SQLException e) {
+			throw new SQLException("Error al conectar a la BD." + e.getMessage());
+		} catch (Exception e) {
+			throw new Exception("Error inesperado: " + e.getMessage());
+		} finally {
+			JdbcUtil.cerrar(cn, ps, rs);
 		}
 		
 		return lista;

@@ -1,8 +1,8 @@
-package pe.edu.uni.mecafab.util;
+package pe.edu.uni.mecafab.validator;
 
 import pe.edu.uni.mecafab.dto.ClienteRegistroDto;
 
-public interface ValidarClienteUtil {
+public interface ValidarCliente {
 
 	public static void validarDatos(ClienteRegistroDto dto) throws Exception {
 

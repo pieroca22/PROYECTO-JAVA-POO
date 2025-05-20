@@ -11,8 +11,8 @@ public class EmpleadoController {
 	EmpleadoService service = new EmpleadoService();
 	
 	// Registrar Empleado
-	public void procesarRegistrarEmpleado(EmpleadoRegistroDto dto) throws SQLException, Exception {
-		service.registrarEmpleado(dto);
+	public int procesarRegistrarEmpleado(EmpleadoRegistroDto dto) throws SQLException, Exception {
+		return service.registrarEmpleado(dto);
 	}
 	
 	// Consultar Empleado
