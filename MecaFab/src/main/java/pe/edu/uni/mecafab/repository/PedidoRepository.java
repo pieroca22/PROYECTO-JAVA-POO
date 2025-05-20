@@ -14,29 +14,29 @@ import pe.edu.uni.mecafab.dto.PedidoRegistroDto;
 import pe.edu.uni.mecafab.util.JdbcUtil;
 
 public class PedidoRepository {
-	
+
 	Connection cn = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
-	
+
 	// ============================
 	// Registrar Pedido
 	// ============================
 	public int registrarPedido(PedidoRegistroDto dto) throws SQLException, Exception {
-		
+
 		int idPedido = -1;
-		
+
 		try {
-			
+
 			cn = AccesoDB.getConnection();
 			cn.setAutoCommit(false);
-			
+
 			String sql = """
             INSERT INTO 
             Pedido (idCliente, descripcion, fechaSolicitud, fechaComprometida, idEstado)
             VALUES (?,?,?,?,?)
                 """;
-			
+
 			ps = cn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			ps.setInt(1, dto.getIdCliente());
 			ps.setString(2, dto.getDescripcion());
@@ -44,14 +44,14 @@ public class PedidoRepository {
 			ps.setDate(4, dto.getFechaComprometida());
 			ps.setInt(5, dto.getIdEstado());
 			ps.executeUpdate();
-			
+
 			rs = ps.getGeneratedKeys();
-			if(rs.next()) {
+			if (rs.next()) {
 				idPedido = rs.getInt(1);
 			}
-			
+
 			cn.commit();
-			
+
 		} catch (SQLException e) {
 			JdbcUtil.rollback(cn);
 			throw new SQLException("Error al conectar a la BD." + e.getMessage());
@@ -60,27 +60,33 @@ public class PedidoRepository {
 			throw new Exception("Error inesperado: " + e.getMessage());
 		} finally {
 			try {
-				if (rs != null) rs.close();
-				if (ps != null) ps.close();
-				if (cn != null) cn.close();
+				if (rs != null) {
+					rs.close();
+				}
+				if (ps != null) {
+					ps.close();
+				}
+				if (cn != null) {
+					cn.close();
+				}
 			} catch (Exception e) {
 			}
 		}
-		
+
 		return idPedido;
 	}
-	
+
 	// ============================
 	// Consultar Pedido
 	// ============================
 	public List<PedidoConsultaDto> consultarPedido(String patron) throws SQLException, Exception {
-		
+
 		List<PedidoConsultaDto> lista = new ArrayList<>();
-		
+
 		try {
-			
+
 			cn = AccesoDB.getConnection();
-			
+
 			String sql = """
 					SELECT pe.idPedido, pe.idCliente, 
 							 CONCAT(cl.nombre,' ',cl.apellido) AS cliente, 
@@ -94,12 +100,12 @@ public class PedidoRepository {
 							cl.apellido COLLATE Latin1_General_CI_AI LIKE ? OR 
 							cl.telefono LIKE ?
                 """;
-			
+
 			ps = cn.prepareStatement(sql);
 			ps.setString(1, "%" + patron + "%");
 			ps.setString(2, "%" + patron + "%");
 			ps.setString(3, "%" + patron + "%");
-			
+
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				PedidoConsultaDto empleado = new PedidoConsultaDto();
@@ -113,7 +119,7 @@ public class PedidoRepository {
 				empleado.setEstado(rs.getString("descripcionEstado"));
 				lista.add(empleado);
 			}
-			
+
 		} catch (SQLException e) {
 			throw new SQLException("Error al conectar a la BD." + e.getMessage());
 		} catch (Exception e) {
@@ -121,21 +127,21 @@ public class PedidoRepository {
 		} finally {
 			JdbcUtil.cerrar(cn, ps, rs);
 		}
-		
+
 		return lista;
 	}
-	
+
 	// ============================
 	// Listar Pedidos en inicio de espera (Para la asignacion del empleado)
 	// ============================
 	public List<PedidoConsultaDto> listarPedidos() throws SQLException, Exception {
-		
+
 		List<PedidoConsultaDto> lista = new ArrayList<>();
-		
+
 		try {
-			
+
 			cn = AccesoDB.getConnection();
-			
+
 			String sql = """
             SELECT pe.idPedido, 
             	   pe.descripcion AS descripcionPedido, 
@@ -150,7 +156,7 @@ public class PedidoRepository {
             WHERE pe.idEstado = 1 
             ORDER BY pe.fechaSolicitud 
                 """;
-			
+
 			ps = cn.prepareStatement(sql);
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -165,7 +171,7 @@ public class PedidoRepository {
 				empleado.setEstado(rs.getString("descripcionEstado"));
 				lista.add(empleado);
 			}
-			
+
 		} catch (SQLException e) {
 			throw new SQLException("Error al conectar a la BD." + e.getMessage());
 		} catch (Exception e) {
@@ -173,8 +179,44 @@ public class PedidoRepository {
 		} finally {
 			JdbcUtil.cerrar(cn, ps, rs);
 		}
-		
+
 		return lista;
 	}
-	
+
+	// ============================
+	// Actualizar Estado del Pedido
+	// ============================
+	public void actualizarPedido(int idPedido, int idEstado) throws SQLException, Exception {
+
+		try {
+
+			cn = AccesoDB.getConnection();
+			cn.setAutoCommit(false);
+
+			String sql = """
+						UPDATE Pedido 
+						SET idEstado = ? WHERE idPedido = ?
+                """;
+
+			ps = cn.prepareStatement(sql);
+			ps.setInt(1, idEstado);
+			ps.setInt(2, idPedido);
+
+			int filas = ps.executeUpdate();
+			System.out.println("✅ Filas afectadas: " + filas);
+
+			cn.commit();
+
+		} catch (SQLException e) {
+			JdbcUtil.rollback(cn);
+			throw new SQLException("Error al conectar a la BD." + e.getMessage());
+		} catch (Exception e) {
+			JdbcUtil.rollback(cn);
+			throw new Exception("Error inesperado: " + e.getMessage());
+		} finally {
+			JdbcUtil.cerrar(cn, ps, rs);
+		}
+
+	}
+
 }

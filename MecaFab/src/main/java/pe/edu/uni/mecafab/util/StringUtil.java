@@ -25,4 +25,14 @@ public interface StringUtil {
 		return texto.substring(0, 1).toUpperCase() + texto.substring(1);
 	}
 	
+	// Para limpiar cajas de texto que almacenan int o double
+	// Ideal para VIEW, y posiblemente fronted (html)
+	public static int limpiarInt(String texto) throws NumberFormatException {
+		return Integer.parseInt(limpiar(texto));
+	}
+
+	public static double limpiarDouble(String texto) throws NumberFormatException {
+		return Double.parseDouble(limpiar(texto));
+	}
+	
 }

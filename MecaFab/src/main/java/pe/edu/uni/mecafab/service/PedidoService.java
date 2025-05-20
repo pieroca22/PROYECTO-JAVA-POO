@@ -31,4 +31,21 @@ public class PedidoService {
 		return pedidoRepo.listarPedidos();
 	}
 	
+	// ============================
+	// Actualizar Pedido (Su estado)
+	// ============================
+	public void actualizarPedido(int idPedido, int idEstado) throws SQLException, Exception {
+
+		if (idEstado > 4 || idEstado < 1) {
+			throw new Exception("Estado no valido.");
+		}
+
+		if (idEstado == 1) {
+			throw new Exception("El estado ya esta registrado.");
+		}
+		
+		pedidoRepo.actualizarPedido(idPedido, idEstado);
+	
+	}
+	
 }

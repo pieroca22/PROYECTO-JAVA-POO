@@ -43,7 +43,7 @@ public class C2_ConsultarEmpleadoView extends javax.swing.JFrame {
         {null, null, null}
       },
       new String [] {
-        "ID", "Cliente", "Rol"
+        "ID", "Empleado", "Rol"
       }
     ) {
       Class[] types = new Class [] {

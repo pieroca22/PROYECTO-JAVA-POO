@@ -14,9 +14,9 @@ public class PruebaD1_RegistrarPedido {
 			int idCliente = 1;
 			String descripcion = "Pedido de reparo de metal";
 			LocalDateTime fechaSolicitud = LocalDateTime.now();
-			Date fechaComprometida = Date.valueOf("2025-06-03"); // En realidad deberia ponerse cuando se asigne el empleado
-			int idEstado = 1; // En espera de inicio
-			PedidoRegistroDto dto = new PedidoRegistroDto(idCliente, descripcion, fechaSolicitud, null, idEstado);
+			Date fechaComprometida = Date.valueOf("2025-07-03");
+			int idEstado = 1; // Registrado
+			PedidoRegistroDto dto = new PedidoRegistroDto(idCliente, descripcion, fechaSolicitud, fechaComprometida, idEstado);
 			
 			// Proceso
 			PedidoController controller = new PedidoController();
