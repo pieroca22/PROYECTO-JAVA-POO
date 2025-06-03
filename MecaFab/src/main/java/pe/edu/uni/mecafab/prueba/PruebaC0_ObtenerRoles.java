@@ -1,8 +1,8 @@
 package pe.edu.uni.mecafab.prueba;
 
 import java.util.List;
-import pe.edu.uni.mecafab.controller.RolController;
-import pe.edu.uni.mecafab.dto.RolDto;
+import pe.edu.uni.mecafab.controller.EmpleadoController;
+import pe.edu.uni.mecafab.dto.RolEmpleadoDto;
 
 public class PruebaC0_ObtenerRoles {
 
@@ -10,14 +10,14 @@ public class PruebaC0_ObtenerRoles {
 
 		try {
 			// Datos
-			List<RolDto> list = null;
+			List<RolEmpleadoDto> list;
 			
 			// Proceso
-			RolController controller = new RolController();
-			list = controller.obtenerRoles();
+			EmpleadoController controller = new EmpleadoController();
+			list = controller.procesarObtenerRoles();
 			
 			// Reporte
-			for (RolDto dto : list) {
+			for (RolEmpleadoDto dto : list) {
 				System.out.println("ID Rol: " + dto.getIdRol() + "\t" + 
 													 "Descripcion: " + dto.getDescripcion());
 			}

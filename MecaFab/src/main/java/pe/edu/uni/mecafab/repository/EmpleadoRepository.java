@@ -10,7 +10,9 @@ import java.util.List;
 import pe.edu.uni.mecafab.db.AccesoDB;
 import pe.edu.uni.mecafab.dto.EmpleadoConsultaDto;
 import pe.edu.uni.mecafab.dto.EmpleadoRegistroDto;
+import pe.edu.uni.mecafab.dto.RolEmpleadoDto;
 import pe.edu.uni.mecafab.util.JdbcUtil;
+import pe.edu.uni.mecafab.util.TransCodeUtil;
 
 public class EmpleadoRepository {
 	
@@ -47,6 +49,15 @@ public class EmpleadoRepository {
 			if(rs.next()) {
 				idEmpleado = rs.getInt(1);
 			}
+			// Generar el código del cliente: EM-0000001
+			String codigo = TransCodeUtil.transCodeEmpleado(idEmpleado);
+			// Actualizar el cliente con su código
+      String update = "UPDATE Empleado SET codigoEmpleado = ? WHERE idEmpleado = ?";
+      try (PreparedStatement ps2 = cn.prepareStatement(update)) {
+				ps2.setString(1, codigo);
+				ps2.setInt(2, idEmpleado);
+				ps2.executeUpdate();
+      }
 			
 			cn.commit();
 			
@@ -77,9 +88,9 @@ public class EmpleadoRepository {
 			
 			// EN MEJORA, HACERLO ESTILO WHATSAPP LA BUSQUEDA
 			String sql = """
-                   SELECT em.idEmpleado, CONCAT(em.nombre,' ',em.apellido) AS empleado, 
-									em.idRol, 
-									rl.descripcion 
+                   SELECT em.idEmpleado, em.codigoEmpleado, 
+									CONCAT(em.nombre,' ',em.apellido) AS empleado, 
+									em.idRol, rl.descripcion  
 									FROM Empleado em 
                    JOIN Rol rl ON rl.idRol = em.idRol 
                    WHERE em.nombre COLLATE Latin1_General_CI_AI LIKE ? OR 
@@ -95,6 +106,7 @@ public class EmpleadoRepository {
 			while(rs.next()) {
 				EmpleadoConsultaDto empleado = new EmpleadoConsultaDto();
 				empleado.setIdEmpleado(rs.getInt("idEmpleado"));
+				empleado.setCodigoEmpleado(rs.getString("codigoEmpleado"));
 				empleado.setEmpleado(rs.getString("empleado"));
 				empleado.setIdRol(rs.getInt("idRol"));
 				empleado.setDescripcionRol(rs.getString("descripcion"));
@@ -111,6 +123,56 @@ public class EmpleadoRepository {
 			JdbcUtil.cerrar(cn, ps, rs);
 		}
 
+	}
+	
+	// ========================================================
+	// OBTENER LOS ROLES DE LOS EMPLEADOS
+	// ========================================================
+	public List<RolEmpleadoDto> obtenerRoles() throws SQLException, Exception {
+		
+		List<RolEmpleadoDto> lista = new ArrayList<>();
+		
+		Connection cn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			
+			cn = AccesoDB.getConnection();
+			
+			String sql = """
+                   SELECT idRol, descripcion 
+									FROM Rol
+									 """;
+			
+			ps = cn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				RolEmpleadoDto dto = new RolEmpleadoDto(rs.getInt("idRol"), rs.getString("descripcion"));
+				lista.add(dto);
+			}
+			
+		} catch (SQLException e) {
+			throw new SQLException("Error al conectar a la BD.");
+		} catch (Exception e) {
+			throw new Exception("Error inesperado: " + e.getMessage());
+		} finally {
+			try {
+				if(rs != null) {
+					rs.close();
+				}
+				if(ps != null) {
+					ps.close();
+				}
+				if(cn != null) {
+					cn.close();
+				}
+			} catch (Exception e) {
+			}
+		}
+		
+		return lista;
+		
 	}
 	
 }

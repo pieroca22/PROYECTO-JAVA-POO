@@ -4,13 +4,14 @@ import java.sql.SQLException;
 import java.util.List;
 import pe.edu.uni.mecafab.dto.EmpleadoConsultaDto;
 import pe.edu.uni.mecafab.dto.EmpleadoRegistroDto;
+import pe.edu.uni.mecafab.dto.RolEmpleadoDto;
 import pe.edu.uni.mecafab.repository.EmpleadoRepository;
 import pe.edu.uni.mecafab.util.StringUtil;
 import pe.edu.uni.mecafab.validator.ValidarEmpleado;
 
 public class EmpleadoService {
 	
-	EmpleadoRepository clienteRepo = new EmpleadoRepository();
+	EmpleadoRepository empleadoRepo = new EmpleadoRepository();
 	
 	//==============================
 	// REGISTRAR EMPLEADO
@@ -24,14 +25,21 @@ public class EmpleadoService {
 		// Verificamos si los datos son validos
 		ValidarEmpleado.validarDatos(dto);
 		
-		return clienteRepo.registrarEmpleado(dto);
+		return empleadoRepo.registrarEmpleado(dto);
 	}
 	
 	//==============================
 	// CONSULTAR EMPLEADO
 	//==============================
 	public List<EmpleadoConsultaDto> consultarEmpleado(String patron) throws SQLException, Exception {
-		return clienteRepo.consultarEmpleado(patron);
+		return empleadoRepo.consultarEmpleado(patron);
+	}
+	
+	// ========================================================
+	// OBTENER LOS ROLES DE LOS EMPLEADOS
+	// ========================================================
+	public List<RolEmpleadoDto> obtenerRoles() throws SQLException, Exception {
+		return empleadoRepo.obtenerRoles();
 	}
 	
 }

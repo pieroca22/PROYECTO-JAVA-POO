@@ -16,7 +16,7 @@ public class PruebaC2_ConsultarEmpleado {
 
 			// Reporte
 			for (EmpleadoConsultaDto empleado : controller.procesarConsultarEmpleado(patron)) {
-				System.out.println("ID EMPLEADO: " + empleado.getIdEmpleado() + "\t" +
+				System.out.println("CODIGO EMPLEADO: " + empleado.getCodigoEmpleado() + "\t" +
 													 "EMPLEADO: " + empleado.getEmpleado()+ "\t" +
 													 "ROL: " + empleado.getDescripcionRol()+ "\n"
 								);

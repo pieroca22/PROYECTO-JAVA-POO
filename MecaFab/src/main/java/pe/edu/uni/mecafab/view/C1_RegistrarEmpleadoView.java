@@ -3,16 +3,14 @@ package pe.edu.uni.mecafab.view;
 import java.util.List;
 import javax.swing.JOptionPane;
 import pe.edu.uni.mecafab.controller.EmpleadoController;
-import pe.edu.uni.mecafab.controller.RolController;
 import pe.edu.uni.mecafab.dto.EmpleadoRegistroDto;
-import pe.edu.uni.mecafab.dto.RolDto;
+import pe.edu.uni.mecafab.dto.RolEmpleadoDto;
 
 public class C1_RegistrarEmpleadoView extends javax.swing.JFrame {
 
 	EmpleadoController controlEmpleado = new EmpleadoController();
-	RolController controlRol = new RolController();
 	// Creamos un List antes de llamarlo en "llenarCombo" para poder usarlo en btnRegistrar
-	private List<RolDto> listaRoles;
+	private List<RolEmpleadoDto> listaRoles;
 
 	public C1_RegistrarEmpleadoView() {
 		initComponents();
@@ -140,7 +138,7 @@ public class C1_RegistrarEmpleadoView extends javax.swing.JFrame {
 			
 			// Hallamos el indice del item seleccionado en el combo: 1,2,3
 			int index = cboRol.getSelectedIndex();
-			// .get(index) devuelve el objeto(RolDto) que está en la posición index de listaRoles
+			// .get(index) devuelve el objeto(RolEmpleadoDto) que está en la posición index de listaRoles
 			//			0,1,2
 			int idRol = listaRoles.get(index).getIdRol();
 			
@@ -230,10 +228,10 @@ public class C1_RegistrarEmpleadoView extends javax.swing.JFrame {
 	private void llenarCombo() {
 		try {
 			// Datos
-			listaRoles = controlRol.obtenerRoles();
+			listaRoles = controlEmpleado.procesarObtenerRoles();
 			// Proceso
 			cboRol.removeAllItems();
-			for (RolDto rol : listaRoles) {
+			for (RolEmpleadoDto rol : listaRoles) {
 				cboRol.addItem(rol.getDescripcion());
 			}
 		} catch (Exception ex) {

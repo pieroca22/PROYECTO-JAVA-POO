@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PedidoConsultaDto {
 	private int idPedido;
+	private String codigoPedido;
 	private int idCliente;
 	private String cliente;
 	private String descripcion;

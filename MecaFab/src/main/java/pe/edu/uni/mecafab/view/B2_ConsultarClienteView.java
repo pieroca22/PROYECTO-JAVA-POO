@@ -44,11 +44,11 @@ public class B2_ConsultarClienteView extends javax.swing.JFrame {
         {null, null, null, null, null, null}
       },
       new String [] {
-        "ID", "Cliente", "Teléfono", "Email", "Direccion", "Fecha de Registro"
+        "Codigo", "Cliente", "Teléfono", "Email", "Direccion", "Fecha de Registro"
       }
     ) {
       Class[] types = new Class [] {
-        java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+        java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
       };
 
       public Class getColumnClass(int columnIndex) {
@@ -144,7 +144,7 @@ public class B2_ConsultarClienteView extends javax.swing.JFrame {
 			tabla.setRowCount(0);
 			for (ClienteConsultaDto cliente : controller.procesarConsultarCliente(patron)) {
 				Object[] row = {
-					cliente.getIdCliente(),
+					cliente.getCodigoCliente(),
 					cliente.getCliente(),
 					cliente.getTelefono(), 
 					cliente.getEmail(), 

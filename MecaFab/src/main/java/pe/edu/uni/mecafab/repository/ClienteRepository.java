@@ -12,6 +12,7 @@ import pe.edu.uni.mecafab.db.AccesoDB;
 import pe.edu.uni.mecafab.dto.ClienteConsultaDto;
 import pe.edu.uni.mecafab.dto.ClienteRegistroDto;
 import pe.edu.uni.mecafab.util.JdbcUtil;
+import pe.edu.uni.mecafab.util.TransCodeUtil;
 
 public class ClienteRepository {
 
@@ -51,6 +52,15 @@ public class ClienteRepository {
 			if(rs.next()) {
 				idCliente = rs.getInt(1);
 			}
+			// Generar el código del cliente: CL-0000001
+			String codigo = TransCodeUtil.transCodeCliente(idCliente);
+			// Actualizar el cliente con su código
+      String update = "UPDATE Cliente SET codigoCliente = ? WHERE idCliente = ?";
+      try (PreparedStatement ps2 = cn.prepareStatement(update)) {
+				ps2.setString(1, codigo);
+				ps2.setInt(2, idCliente);
+				ps2.executeUpdate();
+      } 
 			
 			cn.commit();
 
@@ -82,7 +92,8 @@ public class ClienteRepository {
 			// EN MEJORA, HACERLO ESTILO WHATSAPP LA BUSQUEDA
 			String sql = """
                    SELECT 
-									idCliente, CONCAT(nombre,' ',apellido) AS cliente, apellido,
+									idCliente, codigoCliente, 
+									CONCAT(nombre,' ',apellido) AS cliente, apellido,
                    telefono, email, direccion, fechaRegistro 
 									FROM Cliente 
                    WHERE nombre COLLATE Latin1_General_CI_AI LIKE ? OR 
@@ -103,6 +114,7 @@ public class ClienteRepository {
 			while(rs.next()) {
 				ClienteConsultaDto cliente = new ClienteConsultaDto();
 				cliente.setIdCliente(rs.getInt("idCliente"));
+				cliente.setCodigoCliente(rs.getString("codigoCliente"));
 				cliente.setCliente(rs.getString("cliente"));
 				cliente.setTelefono(rs.getString("telefono"));
 				cliente.setEmail(rs.getString("email"));

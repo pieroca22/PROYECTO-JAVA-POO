@@ -1,6 +1,5 @@
 package pe.edu.uni.mecafab.dto;
 
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,11 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SeguimientoEstadoDto {
-	
-	private int idSeguimiento;
-	private int idPedido;
+public class EstadoPedidoDto {
 	private int idEstado;
-	private LocalDateTime fechaCambio;
-	
+	private String descripcion;
+	private String categoria;
 }

@@ -3,12 +3,12 @@ package pe.edu.uni.mecafab.util;
 public interface StringUtil {
 	
 	// limpia caracteres vacios
-	public static String limpiar(String texto) {
+	static String limpiar(String texto) {
 		return (texto == null) ? null : texto.trim();
 	}
 	
 	// Coloca el primer caracter en mayuscula
-	public static String capitalizar(String texto) {
+	static String capitalizar(String texto) {
 		if (texto == null || texto.trim().isEmpty()) {
 			return texto;
 		}
@@ -17,7 +17,7 @@ public interface StringUtil {
 	}
 	
 	// Hace ambas
-	public static String limCap(String texto) {
+	static String limCap(String texto) {
 		if (texto == null || texto.trim().isEmpty()) {
 			return texto;
 		}
@@ -27,11 +27,11 @@ public interface StringUtil {
 	
 	// Para limpiar cajas de texto que almacenan int o double
 	// Ideal para VIEW, y posiblemente fronted (html)
-	public static int limpiarInt(String texto) throws NumberFormatException {
+	static int limpiarInt(String texto) throws NumberFormatException {
 		return Integer.parseInt(limpiar(texto));
 	}
 
-	public static double limpiarDouble(String texto) throws NumberFormatException {
+	static double limpiarDouble(String texto) throws NumberFormatException {
 		return Double.parseDouble(limpiar(texto));
 	}
 	

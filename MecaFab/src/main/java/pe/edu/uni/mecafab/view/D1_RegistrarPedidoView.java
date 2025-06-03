@@ -63,17 +63,17 @@ public class D1_RegistrarPedidoView extends javax.swing.JFrame {
 
     tblReport.setModel(new javax.swing.table.DefaultTableModel(
       new Object [][] {
-        {null, null, null},
-        {null, null, null},
-        {null, null, null},
-        {null, null, null}
+        {null, null, null, null, null},
+        {null, null, null, null, null},
+        {null, null, null, null, null},
+        {null, null, null, null, null}
       },
       new String [] {
-        "ID", "Empleado", "Rol"
+        "Codigo", "Cliente", "Telefono", "Email", "Direccion"
       }
     ) {
       Class[] types = new Class [] {
-        java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+        java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
       };
 
       public Class getColumnClass(int columnIndex) {
@@ -173,7 +173,7 @@ public class D1_RegistrarPedidoView extends javax.swing.JFrame {
       .addGroup(layout.createSequentialGroup()
         .addGap(18, 18, 18)
         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addContainerGap(50, Short.MAX_VALUE))
+        .addContainerGap(20, Short.MAX_VALUE))
     );
     layout.setVerticalGroup(
       layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -234,7 +234,7 @@ public class D1_RegistrarPedidoView extends javax.swing.JFrame {
 			tabla.setRowCount(0);
 			for (ClienteConsultaDto cliente : clienteController.procesarConsultarCliente(patron)) {
 				Object[] row = {
-					cliente.getIdCliente(),
+					cliente.getCodigoCliente(),
 					cliente.getCliente(),
 					cliente.getTelefono(), 
 					cliente.getEmail(), 

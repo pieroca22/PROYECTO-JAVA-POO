@@ -16,7 +16,7 @@ public class PruebaB2_ConsultarCliente {
 
 			// Reporte
 			for (ClienteConsultaDto cliente : controller.procesarConsultarCliente(patron)) {
-				System.out.println("ID CLIENTE: " + cliente.getIdCliente() + "\t" +
+				System.out.println("CODIGO CLIENTE: " + cliente.getCodigoCliente()+ "\t" +
 													 "CLIENTE: " + cliente.getCliente()+ "\t" + 
 													 "TELEFONO: " + cliente.getTelefono() + "\t" +
 													 "EMAIL: " + cliente.getEmail() + "\t" + 

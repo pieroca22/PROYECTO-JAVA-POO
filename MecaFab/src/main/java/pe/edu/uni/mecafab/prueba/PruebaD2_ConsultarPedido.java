@@ -15,7 +15,7 @@ public class PruebaD2_ConsultarPedido {
 			PedidoController controller = new PedidoController();
 			// Reporte
 			for (PedidoConsultaDto pedido : controller.procesarConsultarPedido(patron)) {
-				System.out.println("ID PEDIDO: " + pedido.getIdPedido()+ "\t" +
+				System.out.println("CODIGO: " + pedido.getCodigoPedido()+ "\t" +
 													 "CLIENTE: " + pedido.getCliente()+ "\t" +
 													 "DESCRIPCION: " + pedido.getDescripcion()+ "\t" +
 													 "FECHA DE SOLICITUD: " + pedido.getFechaSolicitud()+ "\t" +

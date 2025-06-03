@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import pe.edu.uni.mecafab.controller.AsignarPedidoController;
 import pe.edu.uni.mecafab.controller.EmpleadoController;
 import pe.edu.uni.mecafab.controller.PedidoController;
 import pe.edu.uni.mecafab.dto.AsignacionDto;
@@ -23,7 +22,6 @@ public class D2_AsignarPedidoView extends javax.swing.JFrame {
 
 	EmpleadoController empleadoControl = new EmpleadoController();
 	PedidoController pedidoControl = new PedidoController();
-	AsignarPedidoController asignarControl = new AsignarPedidoController();
 	
 	@SuppressWarnings("unchecked")
   // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -71,17 +69,17 @@ public class D2_AsignarPedidoView extends javax.swing.JFrame {
 
     tblPedidos.setModel(new javax.swing.table.DefaultTableModel(
       new Object [][] {
-        {null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null}
+        {null, null, null, null, null, null},
+        {null, null, null, null, null, null},
+        {null, null, null, null, null, null},
+        {null, null, null, null, null, null}
       },
       new String [] {
-        "ID Pedido", "ID Cliente", "Cliente", "Descripcion", "Fecha Solicitud", "Fecha Comprometida", "Estado"
+        "Codigo", "Cliente", "Descripcion", "Fecha Solicitud", "Fecha Comprometida", "Estado"
       }
     ) {
       Class[] types = new Class [] {
-        java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+        java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
       };
 
       public Class getColumnClass(int columnIndex) {
@@ -98,11 +96,11 @@ public class D2_AsignarPedidoView extends javax.swing.JFrame {
         {null, null, null}
       },
       new String [] {
-        "ID", "Empleado", "Rol"
+        "Codigo", "Empleado", "Rol"
       }
     ) {
       Class[] types = new Class [] {
-        java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+        java.lang.String.class, java.lang.String.class, java.lang.String.class
       };
 
       public Class getColumnClass(int columnIndex) {
@@ -210,13 +208,13 @@ public class D2_AsignarPedidoView extends javax.swing.JFrame {
 		try {
 
 			// Datos
-			int idPedido = StringUtil.limpiarInt(txtIdEmpleado.getText());
+			int idPedido = StringUtil.limpiarInt(txtIdPedido.getText());
 			int idEmpleado = StringUtil.limpiarInt(txtIdEmpleado.getText());
 			LocalDateTime fechaAsignacion = LocalDateTime.now();
 			AsignacionDto dto = new AsignacionDto(idPedido, idEmpleado, fechaAsignacion);
 			
 			// Proceso
-			asignarControl.asignarPedido(dto);
+			pedidoControl.procesarAsignarPedido(dto);
 			
 			// Reporte
 			JOptionPane.showMessageDialog(null, "Pedido Asignado Correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
@@ -242,7 +240,7 @@ public class D2_AsignarPedidoView extends javax.swing.JFrame {
 			tabla.setRowCount(0);
 			for (EmpleadoConsultaDto empleado : empleadoControl.procesarConsultarEmpleado(patron)) {
 				Object[] row = {
-					empleado.getIdEmpleado(),
+					empleado.getCodigoEmpleado(),
 					empleado.getEmpleado(),
 					empleado.getDescripcionRol(), 
 				};
@@ -302,10 +300,9 @@ public class D2_AsignarPedidoView extends javax.swing.JFrame {
 			DefaultTableModel tabla;
 			tabla = (DefaultTableModel) tblPedidos.getModel();
 			tabla.setRowCount(0);
-			for (PedidoConsultaDto pedido : pedidoControl.procesarListarPedido()) {
+			for (PedidoConsultaDto pedido : pedidoControl.procesarListarPedidosRegistrados()) {
 				Object[] row = {
-					pedido.getIdPedido(),
-					pedido.getIdCliente(),
+					pedido.getCodigoPedido(),
 					pedido.getCliente(), 
 					pedido.getDescripcion(),
 					pedido.getFechaSolicitud().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),

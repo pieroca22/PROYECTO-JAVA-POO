@@ -21,7 +21,7 @@ public class ClienteService {
 		dto.setNombre(StringUtil.limCap(dto.getNombre()));
 		dto.setApellido(StringUtil.limCap(dto.getApellido()));
 		dto.setTelefono(StringUtil.limCap(dto.getTelefono()));
-		dto.setEmail(StringUtil.limCap(dto.getEmail()));
+		dto.setEmail(StringUtil.limpiar(dto.getEmail()));
 		dto.setDireccion(StringUtil.limCap(dto.getDireccion()));
 		
 		// Verificamos que sea valido los datos ingresados
